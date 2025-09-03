@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getTokens } from '../utils/auth.js'
 import { MessagePlugin } from 'tdesign-vue-next'
+import Layout from '@/components/layout/index.vue'
 // 白名单路由
-const whiteList = ['/login', '/register']
+const whiteList = ['/login', '/register', '/404']
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,13 +14,53 @@ const router = createRouter({
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/dashboard/index.vue'),
+      name: 'dashboard-top',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'dashboard',
+          component: () => import('@/views/dashboard/index.vue'),
+        },
+      ],
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/auth/index.vue'),
+      component: () => import('@/views/auth/index.vue'),
+    },
+    {
+      path: '/todo',
+      name: 'todo-top',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'todo',
+          component: () => import('@/views/todo/index.vue'),
+        },
+      ],
+    },
+    {
+      path: '/album',
+      name: 'album-top',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'album',
+          component: () => import('@/views/album/index.vue'),
+        },
+      ],
+    },
+    {
+      path: '/404',
+      name: 'NotFound',
+      component: () => import('@/views/error/404.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/404',
     },
   ],
 })
@@ -37,7 +78,7 @@ router.beforeEach((to, from, next) => {
   // 如果没有 token 且不在白名单中，重定向到登录页
   if (!accessToken) {
     // next()
-    MessagePlugin.error({ content: "请先登录" })
+    MessagePlugin.error({ content: '请先登录' })
     next('/login')
     return
   }

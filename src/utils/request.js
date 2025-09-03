@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { getTokens, isTokenExpiringSoon, setTokens, clearTokens } from './auth.js'
 import useMainStore from '@/stores/main.js'
-const mainStore = useMainStore()
 // 创建 axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL, // API 的 base_url
@@ -14,8 +13,8 @@ const whiteList = ['/auth/login', '/auth/register']
 // 请求拦截器
 service.interceptors.request.use(
   async (config) => {
+    const mainStore = useMainStore()
     mainStore.isLoading = true
-    debugger
     // 在发送请求之前做些什么
     const { accessToken, expiryTime } = getTokens()
     // 检查 token 是否即将过期
@@ -30,6 +29,7 @@ service.interceptors.request.use(
     return config
   },
   (error) => {
+    const mainStore = useMainStore()
     mainStore.isLoading = true
     // 对请求错误做些什么
     console.error(error) // for debug
@@ -40,6 +40,7 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (response) => {
+    const mainStore = useMainStore()
     mainStore.isLoading = false
     // 对响应数据做点什么
     const res = response.data
@@ -51,6 +52,7 @@ service.interceptors.response.use(
     }
   },
   (error) => {
+    const mainStore = useMainStore()
     mainStore.isLoading = false
     const msg = error.message && error.response.data.message
     // MessagePlugin.error({ content: msg || 'Error', duration: 3000 })

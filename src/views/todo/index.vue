@@ -1,10 +1,9 @@
 <script setup>
+
 </script>
 
 <template>
-  <div class="dashboard">
-    主页
-  </div>
+  <div class="todo">todo</div>
 </template>
 
 <style scoped></style>

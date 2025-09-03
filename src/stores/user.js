@@ -17,15 +17,22 @@ const useUserStore = defineStore('user', {
     async login(data) {
       const res = await login(data)
       if (res.success) {
-        const { access_token, refresh_token, exp } = res.data
+        console.log(res.data)
+        const { user_name, access_token, refresh_token, exp } = res.data
         setTokens(access_token, refresh_token, exp)
         this.accessToken = res.data.access_token
         this.refreshToken = res.data.refresh_token
         this.expiryTime = res.data.expiry_time
+        this.userInfo.username = user_name
       } else {
         throw new Error(res)
       }
     },
+  },
+  persist: {
+    key: 'user-store',
+    storage: localStorage,
+    paths: ['userInfo', 'accessToken', 'refreshToken', 'expiryTime'],
   },
 })
 

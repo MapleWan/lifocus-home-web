@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
+import svgLoader from 'vite-svg-loader'
 import UnoCSS from 'unocss/vite'
 
 // https://vite.dev/config/
@@ -14,10 +15,13 @@ export default defineConfig({
     vue(),
     vueJsx(),
     vueDevTools(),
+    svgLoader({
+      defaultImport: 'component', // 默认导入为 Vue 组件
+    }),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   server: {
