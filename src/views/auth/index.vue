@@ -11,7 +11,7 @@ const switchFormType = (type) => {
 <template>
   <div class="auth-container bg-#fffef8 flex flex-col justify-center items-center h100vh">
     <div
-      class="form-container flex flex-col items-center min-h-300px max-h-500px min-w-30% max-w-50% pl-3 pr-3 backdrop-blur-lg">
+      class="animate__animated animate__fadeInLeft form-container flex flex-col items-center min-h-300px max-h-500px min-w-30% max-w-50% pl-3 pr-3 backdrop-blur-lg">
       <div class="mt-[1rem] text-[2rem] leading-[2.34rem] font-[600]">
         欢迎回来 LiFocus</div>
       <Login class="mt-2rem" v-if="formType === 'login'" />

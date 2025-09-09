@@ -25,7 +25,7 @@ const more = () => {
 </script>
 
 <template>
-  <div class="bg-black h-[calc(100vh-48px)] p-6 flex flex-col justify-start">
+  <div class="bg-black h-[calc(100vh-48px)] p-6 flex flex-col justify-start layout-container">
     <Header>
       <template #right>
         <div class="c-white">
@@ -52,4 +52,8 @@ const more = () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.layout-container {
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+}
+</style>

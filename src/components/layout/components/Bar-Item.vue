@@ -58,6 +58,7 @@ const dynamicComponent = computed(() => {
 
 <style scoped>
 .active {
-  background-color: #141414;
+  /* background-color: #141414; */
+  background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
 }
 </style>

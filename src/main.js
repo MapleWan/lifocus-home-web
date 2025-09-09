@@ -2,6 +2,7 @@
 import 'tdesign-vue-next/es/style/index.css'
 import 'virtual:uno.css'
 import '@/assets/style/normalize.css'
+import 'animate.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
