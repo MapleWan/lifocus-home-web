@@ -12,8 +12,11 @@
         </t-input>
       </t-form-item>
     </t-form>
-    <div class="mt-4 w100%">
-      <t-button theme="primary" @click="handleLogin" block>登录</t-button>
+    <div
+      class="mt-4 w100% h-10 flex justify-center items-center rounded-large bg-[var(--primary-color)] c-[var(--foreground-color)]"
+      @click="handleLogin">
+      <!-- <t-button theme="primary" @click="handleLogin" block>登录</t-button> -->
+      登录
     </div>
   </div>
 </template>
@@ -67,8 +70,16 @@ const handleLogin = async () => {
 }
 
 :deep(.t-input) {
-  background-color: #fffef8;
   height: 48px;
   border-radius: 12px;
+  background-color: inherit;
+}
+
+:deep(.t-input__inner::placeholder) {
+  color: var(--foreground-color);
+}
+
+:deep(.t-input__inner:focus) {
+  color: var(--foreground-color);
 }
 </style>

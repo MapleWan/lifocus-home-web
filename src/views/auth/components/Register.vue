@@ -15,8 +15,11 @@
         </t-input>
       </t-form-item>
     </t-form>
-    <div class="mt-4 w100%">
-      <t-button theme="primary" @click="handleLogin" block>注册</t-button>
+
+    <div
+      class="mt-4 w100% h-10 flex justify-center items-center rounded-large bg-[var(--primary-color)] c-[var(--foreground-color)]"
+      @click="handleRegister">
+      注册
     </div>
   </div>
 </template>
@@ -38,7 +41,7 @@ const registerForm = ref({
   repeatPassword: ''
 })
 const form = ref(null)
-const handleLogin = async () => {
+const handleRegister = async () => {
   const validation = await form.value.validate()
   if (validation === true) {
     try {
@@ -69,8 +72,16 @@ const handleLogin = async () => {
 }
 
 :deep(.t-input) {
-  background-color: #fffef8;
   height: 48px;
   border-radius: 12px;
+  background-color: inherit;
+}
+
+:deep(.t-input__inner::placeholder) {
+  color: var(--foreground-color);
+}
+
+:deep(.t-input__inner:focus) {
+  color: var(--foreground-color);
 }
 </style>

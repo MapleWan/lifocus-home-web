@@ -2,6 +2,8 @@
 import 'tdesign-vue-next/es/style/index.css'
 import 'virtual:uno.css'
 import '@/assets/style/normalize.css'
+import '@/assets/style/global.css'
+import '@/assets/style/theme.css'
 import 'animate.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -16,5 +18,4 @@ pinia.use(piniaPluginPersistedstate)
 
 app.use(pinia)
 app.use(router)
-
 app.mount('#app')

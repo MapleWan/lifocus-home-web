@@ -1,0 +1,22 @@
+.glass-effect {
+  background: rgba(11, 11, 12, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  /* background-color: gray;
+  background-clip: padding-box;
+  backdrop-filter: blur(8px) saturate(100%) contrast(100%);
+  opacity: 10%; */
+}
+
+.glass-no-color {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.rounded-large {
+  border-radius: 1.5rem;
+}
+
+.shadow-large {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}

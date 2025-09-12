@@ -5,14 +5,17 @@ import BarItem from './components/Bar-Item.vue';
 import { useRouter } from 'vue-router';
 import useUserStore from '@/stores/user';
 import { ref } from 'vue';
+
 const pageList = ref([
   { code: "dashboard", title: "主页", routerPath: "/" },
   { code: "todo", title: "TODO", routerPath: "/todo" },
   { code: "album", title: "相册", routerPath: "/album" },
+  { code: "markdown", title: "Markdown 编辑器", routerPath: "/markdown" },
   // {code: "dashboard", title: "主页", routerPath: "/"},
 ])
 const currentPage = ref("dashboard")
 const router = useRouter()
+currentPage.value = router.currentRoute.value.name
 const userStore = useUserStore()
 
 const jump = (item) => {
@@ -45,7 +48,7 @@ const more = () => {
           <bar-item code="more" title="更多" @click="more" />
         </template>
       </SiderBar>
-      <div class="flex-1 bg-blue">
+      <div class="flex-1">
         <router-view></router-view>
       </div>
     </div>
