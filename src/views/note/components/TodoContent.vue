@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="todo-content">
+  <div class="todo-content c-[var(--foreground-color)]">
     todo-content
   </div>
 </template>

@@ -1,9 +1,7 @@
 // 引入tDesign组件库的少量全局样式变量
 import 'tdesign-vue-next/es/style/index.css'
 import 'virtual:uno.css'
-import '@/assets/style/normalize.css'
-import '@/assets/style/global.css'
-import '@/assets/style/theme.css'
+import '@/assets/style/index.css'
 import 'animate.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

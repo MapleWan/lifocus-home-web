@@ -30,14 +30,26 @@ const router = createRouter({
       component: () => import('@/views/auth/index.vue'),
     },
     {
-      path: '/todo',
-      name: 'todo-top',
+      path: '/note',
+      name: 'note-top',
       component: Layout,
       children: [
         {
           path: '',
-          name: 'todo',
-          component: () => import('@/views/todo/index.vue'),
+          name: 'note',
+          component: () => import('@/views/note/index.vue'),
+        },
+      ],
+    },
+    {
+      path: '/daily',
+      name: 'daily-top',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'daily',
+          component: () => import('@/views/daily/index.vue'),
         },
       ],
     },

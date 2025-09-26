@@ -1,7 +1,6 @@
 <script setup>
 
 </script>
-
 <template>
   <div class="header flex flex-row justify-between items-center">
     <slot name="left">

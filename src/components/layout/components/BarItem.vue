@@ -3,6 +3,8 @@ import dashboard from "@/assets/sideBarIcons/dashboard.svg"
 import album from "@/assets/sideBarIcons/album.svg"
 import more from "@/assets/sideBarIcons/more.svg"
 import todo from "@/assets/sideBarIcons/todo.svg"
+import note from "@/assets/sideBarIcons/note.svg"
+import daily from "@/assets/sideBarIcons/daily.svg"
 import { computed } from "vue"
 const props = defineProps({
   title: {
@@ -34,6 +36,10 @@ const dynamicComponent = computed(() => {
       return more;
     case 'todo':
       return todo;
+    case 'note':
+      return note;
+    case 'daily':
+      return daily;
     default:
       return dashboard;
   }
@@ -42,14 +48,16 @@ const dynamicComponent = computed(() => {
 </script>
 
 <template>
-  <div class="bar-item flex items-center p-2 p-l-5 p-r-5 m-3 rounded-4 cursor-pointer" :class="{ active: isActive }">
+  <div
+    class="c-[var(--foreground-color)] p-y-2 p-2 flex flex-row items-center cursor-pointer gap-2 hover:bg-[var(--hover)] rounded-xl !transition-all gap-1"
+    :class="{ active: isActive }">
     <slot name="icon">
       <div class="w-6 h-6">
-        <component :is="dynamicComponent" class="w-full h-full c-white" />
+        <component :is="dynamicComponent" class="w-full h-full" />
       </div>
     </slot>
     <slot name="title">
-      <div class="m-l-2 font-size-5 c-white font-500">
+      <div class="m-l-2 font-size-4 font-600 line-height-6">
         {{ props.title || "主页" }}
       </div>
     </slot>
@@ -59,6 +67,8 @@ const dynamicComponent = computed(() => {
 <style scoped>
 .active {
   /* background-color: #141414; */
-  background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
+  /* background-image: linear-gradient(to right, #868f96 0%, #596164 100%); */
+  background: var(--foreground-color);
+  color: var(--background-color);
 }
 </style>
