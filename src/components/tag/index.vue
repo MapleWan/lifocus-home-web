@@ -1,85 +1,50 @@
 <template>
-  <div class="tag" @click="enableEdit">
-    <span v-if="!isEditing">{{ tagText || '点击编辑标签' }}</span>
+  <div
+    class="tag rounded flex items-center justify-between w-fit glass-effect min-w-10 p-l-1.5 p-r-1 border-solid border-#252526 border-1 c-[var(--foreground-color)] inline-block"
+    v-if="model"
+  >
+    <div class="tag-item flex items-center justify-between">
+      <div class="tag-item-icon">
+        <slot name="icon"></slot>
+      </div>
+      <div class="tag-item-text">
+        <slot name="text">{{ model }}</slot>
+      </div>
+    </div>
+
     <div
-      v-else
-      ref="editableDivRef"
-      contenteditable="true"
-      @blur="saveEdit"
-      @keydown.enter.exact.prevent="saveEdit"
-      @keydown.esc="cancelEdit"
-      class="editable-div"
-    ></div>
+      class="close-icon cursor-pointer flex items-center justify-center"
+      @click="handleClose"
+      v-if="closeable"
+    >
+      <closeIcon class="c-#bfbfbf w-3 h-3"></closeIcon>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue'
-
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: '',
+import { defineEmits, defineProps } from 'vue'
+import closeIcon from '@/assets/commonIcons/close.svg'
+const emit = defineEmits(['close'])
+const model = defineModel({ type: String, default: '' })
+defineProps({
+  closeable: {
+    type: Boolean,
+    default: false,
   },
 })
 
-const emit = defineEmits(['update:modelValue'])
-
-const isEditing = ref(false)
-const tagText = ref(props.modelValue)
-const editableDivRef = ref(null)
-
-function enableEdit() {
-  isEditing.value = true
-  nextTick(() => {
-    editableDivRef.value?.focus()
-    // 将光标移到末尾
-    const range = document.createRange()
-    const sel = window.getSelection()
-    range.selectNodeContents(editableDivRef.value)
-    range.collapse(false)
-    sel.removeAllRanges()
-    sel.addRange(range)
-  })
-}
-
-function saveEdit() {
-  const newText = editableDivRef.value.textContent
-  tagText.value = newText
-  emit('update:modelValue', tagText.value)
-  isEditing.value = false
-}
-
-function cancelEdit() {
-  editableDivRef.value.textContent = tagText.value
-  isEditing.value = false
+const handleClose = () => {
+  // 检查是否有监听器，如果没有则执行默认行为（这里默认行为是什么可以根据需求调整）
+  const hasCloseListener = emit('close')
+  if (!hasCloseListener) {
+    // 默认行为，例如控制台输出或者什么都不做
+    model.value = ''
+  } else {
+    // 如果有监听器，则执行监听器的行为
+    emit('close')
+  }
 }
 </script>
 
-<style scoped>
-.tag {
-  display: inline-block;
-  padding: 4px 8px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  cursor: pointer;
-  min-width: 60px;
-  text-align: center;
-}
-
-.tag:hover {
-  background-color: #e0e0e0;
-}
-
-.editable-div {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 2px 6px;
-  outline: none;
-  width: 100%;
-  min-width: 60px;
-  text-align: left;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-</style>
+<style scoped></style>
