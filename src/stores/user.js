@@ -17,7 +17,6 @@ const useUserStore = defineStore('user', {
     async login(data) {
       const res = await login(data)
       if (res.success) {
-        console.log(res.data)
         const { user_name, access_token, refresh_token, exp } = res.data
         setTokens(access_token, refresh_token, exp)
         this.accessToken = res.data.access_token
