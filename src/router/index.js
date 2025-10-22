@@ -66,18 +66,6 @@ const router = createRouter({
       ],
     },
     {
-      path: '/markdown',
-      name: 'markdown-top',
-      component: Layout,
-      children: [
-        {
-          path: '',
-          name: 'markdown',
-          component: () => import('@/views/markdown-demo/index.vue'),
-        },
-      ],
-    },
-    {
       path: '/404',
       name: 'NotFound',
       component: () => import('@/views/error/404.vue'),
