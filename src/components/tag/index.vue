@@ -24,7 +24,6 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps } from 'vue'
 import closeIcon from '@/assets/commonIcons/close.svg'
 const emit = defineEmits(['close'])
 // const model = defineModel({ type: String, default: '' })

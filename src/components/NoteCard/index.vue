@@ -1,0 +1,74 @@
+<template>
+  <div class="note-card">
+    <div class="header flex justify-between">
+      <div class="header-title">
+        {{ title }}
+      </div>
+      <div class="header-actions flex items-center">
+        <div class="header-time m-r-4">
+          {{ time }}
+        </div>
+        <EditIcon class="w-4 h-4 c-[var(--foreground-color)] cursor-pointer m-r-2" />
+        <t-popup placement="bottom">
+          <MoreIcon class="w-4 h-4 c-[var(--foreground-color)] cursor-pointer" />
+          <template #content> 更多操作-敬请期待 </template>
+        </t-popup>
+      </div>
+    </div>
+
+    <div class="content">
+      {{ content }}
+    </div>
+
+    <div class="tags">
+      <template v-for="tag in tags" :key="tag.name">
+        <Tag v-model:content="tag.name"></Tag>
+      </template>
+    </div>
+
+    <div class="type">
+      {{ type }}
+    </div>
+  </div>
+</template>
+
+<script setup>
+import MoreIcon from '@/assets/commonIcons/more.svg'
+import EditIcon from '@/assets/commonIcons/edit.svg'
+import Tag from '@/components/Tag/index.vue'
+import { Popup as TPopup } from 'tdesign-vue-next'
+defineProps({
+  // id
+  id: {
+    type: String,
+    default: '',
+  },
+  // 标题
+  title: {
+    type: String,
+    default: '',
+  },
+  // 时间
+  time: {
+    type: String,
+    default: '',
+  },
+  // 内容
+  content: {
+    type: String,
+    default: '',
+  },
+  // 标签
+  tags: {
+    type: Array,
+    default: () => [],
+  },
+  // 类型
+  type: {
+    type: String,
+    default: '',
+  },
+})
+</script>
+
+<style scoped></style>

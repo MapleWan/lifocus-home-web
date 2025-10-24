@@ -2,7 +2,9 @@
 import { ref } from 'vue'
 import MdEditor from '@/components/MdEditor/index.vue'
 import Tag from '@/components/Tag/index.vue'
+import NoteCard from '@/components/NoteCard/index.vue'
 import { getAllTags } from '@/api/tag.js'
+import { getAllNotes } from '@/api/note'
 
 const content = ref('')
 const tagList = ref([])
@@ -18,10 +20,24 @@ getAllTags().then((res) => {
 const deleteTag = (index) => {
   tagList.value.splice(index, 1)
 }
+
+const noteList = ref([])
+getAllNotes().then((res) => {
+  noteList.value = res.data.map((note) => {
+    return {
+      id: note.id,
+      title: note?.title || '测试标题',
+      time: note.updatedAt,
+      content: note.content,
+      tags: note.tags.split(','),
+      type: note.type,
+    }
+  })
+})
 </script>
 
 <template>
-  <div class="daily c-[var(--foreground-color)] p-y-4">
+  <div class="daily c-[var(--foreground-color)] p-y-4 overflow-hidden">
     <MdEditor v-model="content" class="glass-effect" />
     <div class="flex flex-wrap items-center gap-x-2 p-y-1">
       <template v-for="(tag, index) in tagList" :key="tag">
@@ -35,15 +51,12 @@ const deleteTag = (index) => {
       </template>
     </div>
 
-    <div
-      class="p-y-2"
-      @click="
-        () => {
-          console.log(tagList)
-        }
-      "
-    >
-      日常
+    <div class="note-list flex flex-wrap h-full">
+      <div class="note-item w-50%" v-for="note in noteList" :key="note.id">
+        <div class="item-container m-1 p-2 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed min-h-40">
+          <NoteCard v-bind="note" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
