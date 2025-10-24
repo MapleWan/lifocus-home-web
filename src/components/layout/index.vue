@@ -82,11 +82,11 @@ const more = () => {
   background: linear-gradient(90deg, #020003, #150022, #291C0D);
   background-size: 300% 300%;
   animation: gradient 6s alternate infinite;
-  position: absolute;
+  /* position: absolute;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  left: 0; */
+  /* height: 100vh; */
+  /* width: 100%; */
 }
 
 @keyframes gradient {

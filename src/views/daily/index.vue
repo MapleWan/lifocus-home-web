@@ -37,24 +37,37 @@ getAllNotes().then((res) => {
 </script>
 
 <template>
-  <div class="daily c-[var(--foreground-color)] p-y-4 overflow-hidden">
-    <MdEditor v-model="content" class="glass-effect" />
-    <div class="flex flex-wrap items-center gap-x-2 p-y-1">
-      <template v-for="(tag, index) in tagList" :key="tag">
-        <Tag
-          v-model:content="tagList[index].name"
-          v-model:selected="tagList[index].selected"
-          :closeable="true"
-          :selectable="tagList[index].selectable"
-          @close="deleteTag(index)"
-        ></Tag>
-      </template>
+  <div class="daily c-[var(--foreground-color)] p-y-4 overflow-hidden flex flex-col">
+    <div class="edit-form">
+      <MdEditor v-model="content" class="glass-effect" />
+      <div class="flex flex-wrap items-center gap-x-2 p-y-1">
+        <template v-for="(tag, index) in tagList" :key="tag">
+          <Tag
+            v-model:content="tagList[index].name"
+            v-model:selected="tagList[index].selected"
+            :closeable="true"
+            :selectable="tagList[index].selectable"
+            @close="deleteTag(index)"
+          ></Tag>
+        </template>
+      </div>
     </div>
 
-    <div class="note-list flex flex-wrap h-full">
-      <div class="note-item w-50%" v-for="note in noteList" :key="note.id">
-        <div class="item-container m-1 p-2 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed min-h-40">
-          <NoteCard v-bind="note" />
+    <div class="note-list flex-1">
+      <div class="h-full flex flex-wrap overflow-hidden ">
+        <div class="note-item w-50%" v-for="note in noteList" :key="note.id">
+          <div
+            class="item-container m-1 p-2 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed min-h-40"
+          >
+            <NoteCard v-bind="note" />
+          </div>
+        </div>
+        <div class="note-item w-50%" v-for="note in noteList" :key="note.id">
+          <div
+            class="item-container m-1 p-2 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed min-h-40"
+          >
+            <NoteCard v-bind="note" />
+          </div>
         </div>
       </div>
     </div>

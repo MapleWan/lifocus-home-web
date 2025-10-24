@@ -83,7 +83,8 @@ const content = defineModel({
   --md-scrollbar-bg-color: #999999;
   /* background: none; */
   border-radius: 8px;
-  height: 400px;
+  /* height: 400px; */
+  height: 30vh;
 }
 
 :deep(.md-editor-custom-scrollbar__track) {
