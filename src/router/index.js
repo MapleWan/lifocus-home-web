@@ -30,6 +30,11 @@ const router = createRouter({
       component: () => import('@/views/auth/index.vue'),
     },
     {
+      path: '/test',
+      name: 'test',
+      component: () => import('@/views/test/index.vue'),
+    },
+    {
       path: '/note',
       name: 'note-top',
       component: Layout,

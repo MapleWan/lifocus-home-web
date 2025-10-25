@@ -37,7 +37,9 @@ getAllNotes().then((res) => {
 </script>
 
 <template>
-  <div class="daily c-[var(--foreground-color)] p-y-4 overflow-hidden flex flex-col">
+  <div
+    class="daily c-[var(--foreground-color)] h-full p-y-4 overflow-hidden flex flex-col relative"
+  >
     <div class="edit-form">
       <MdEditor v-model="content" class="glass-effect" />
       <div class="flex flex-wrap items-center gap-x-2 p-y-1">
@@ -53,15 +55,8 @@ getAllNotes().then((res) => {
       </div>
     </div>
 
-    <div class="note-list flex-1">
-      <div class="h-full flex flex-wrap overflow-hidden ">
-        <div class="note-item w-50%" v-for="note in noteList" :key="note.id">
-          <div
-            class="item-container m-1 p-2 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed min-h-40"
-          >
-            <NoteCard v-bind="note" />
-          </div>
-        </div>
+    <div class="note-list flex-1 overflow-hidden">
+      <div class="h-full overflow-y-auto flex flex-wrap">
         <div class="note-item w-50%" v-for="note in noteList" :key="note.id">
           <div
             class="item-container m-1 p-2 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed min-h-40"

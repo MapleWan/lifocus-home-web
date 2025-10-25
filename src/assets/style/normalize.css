@@ -5,3 +5,8 @@ body {
 div {
   box-sizing: border-box;
 }
+
+#app {
+  height: 100vh;
+  overflow: hidden;
+}
