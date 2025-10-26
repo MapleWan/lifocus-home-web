@@ -63,6 +63,7 @@ service.interceptors.response.use(
 
 // 刷新 token 的函数 TODO(这个逻辑有待验证)
 async function refreshToken() {
+  console.log('进入刷新 token ，------->>>>>>>')
   try {
     const { refreshToken } = getTokens()
     if (!refreshToken) {

@@ -20,9 +20,9 @@
       {{ content }}
     </div>
 
-    <div class="tags">
-      <template v-for="tag in tags" :key="tag.name">
-        <Tag v-model:content="tag.name"></Tag>
+    <div class="tags flex flex-wrap gap-x-2">
+      <template v-for="(t, index) in tags" :key="index">
+        <Tag :content="t"></Tag>
       </template>
     </div>
 

@@ -4,8 +4,11 @@ import MdEditor from '@/components/MdEditor/index.vue'
 import Tag from '@/components/Tag/index.vue'
 import NoteCard from '@/components/NoteCard/index.vue'
 import { getAllTags } from '@/api/tag.js'
-import { getAllNotes } from '@/api/note'
-
+import { getAllNotes, addNote } from '@/api/note'
+import { Input as TInput } from 'tdesign-vue-next'
+import { MessagePlugin } from 'tdesign-vue-next'
+import SendIcon from '@/assets/commonIcons/send.svg'
+import Divider from '@/components/Divider/index.vue'
 const content = ref('')
 const tagList = ref([])
 getAllTags().then((res) => {
@@ -14,6 +17,7 @@ getAllTags().then((res) => {
       name: tag.name,
       selected: false,
       selectable: true,
+      closeable: false,
     }
   })
 })
@@ -21,19 +25,81 @@ const deleteTag = (index) => {
   tagList.value.splice(index, 1)
 }
 
+const getAllArticle = () => {
+  getAllNotes().then((res) => {
+    noteList.value = res.data.map((note) => {
+      return {
+        id: note.id,
+        title: note?.title || '',
+        time: note.updatedAt,
+        content: note.content,
+        tags: note.tags.split(','),
+        type: note.type,
+      }
+    })
+  })
+}
 const noteList = ref([])
-getAllNotes().then((res) => {
-  noteList.value = res.data.map((note) => {
-    return {
-      id: note.id,
-      title: note?.title || '测试标题',
-      time: note.updatedAt,
-      content: note.content,
-      tags: note.tags.split(','),
-      type: note.type,
+getAllArticle()
+
+const noteTitle = ref('')
+const onTitleClear = () => {
+  noteTitle.value = ''
+}
+
+const newTag = ref('')
+const onTagClear = () => {
+  newTag.value = ''
+}
+const addNewTag = () => {
+  if (newTag.value) {
+    const index = tagList.value.findIndex((tag) => tag.name === newTag.value)
+    if (index !== -1) {
+      MessagePlugin.warning('标签已存在，已为您自动选中')
+      tagList.value[index].selected = true
+      newTag.value = ''
+      return
+    }
+    tagList.value.push({
+      name: newTag.value,
+      selected: true,
+      selectable: true,
+      closeable: true,
+    })
+    newTag.value = ''
+  }
+}
+
+const submitAddNote = () => {
+  if (!noteTitle.value) {
+    MessagePlugin.warning('请输入标题')
+    return
+  }
+  if (!content.value) {
+    MessagePlugin.warning('请输入内容')
+    return
+  }
+  const tags = tagList.value
+    .filter((tag) => tag.selected)
+    .map((tag) => tag.name)
+    .join(',')
+
+  if (!tags) {
+    MessagePlugin.warning('请选择至少一个标签')
+    return
+  }
+  addNote({
+    type: 'daily',
+    title: noteTitle.value,
+    content: content.value,
+    tags,
+  }).then((res) => {
+    if (res.success) {
+      getAllArticle()
+      MessagePlugin.success('笔记创建成功')
     }
   })
-})
+}
 </script>
 
 <template>
@@ -41,19 +107,48 @@ getAllNotes().then((res) => {
     class="daily c-[var(--foreground-color)] h-full p-y-4 overflow-hidden flex flex-col relative"
   >
     <div class="edit-form">
+      <t-input
+        class="p-y-2 p-x-1"
+        v-model="noteTitle"
+        clearable
+        placeholder="标题"
+        size="small"
+        @clear="onTitleClear"
+      />
       <MdEditor v-model="content" class="glass-effect" />
       <div class="flex flex-wrap items-center gap-x-2 p-y-1">
         <template v-for="(tag, index) in tagList" :key="tag">
           <Tag
             v-model:content="tagList[index].name"
             v-model:selected="tagList[index].selected"
-            :closeable="true"
+            :closeable="tagList[index].closeable"
             :selectable="tagList[index].selectable"
             @close="deleteTag(index)"
           ></Tag>
         </template>
+        <t-input
+          class="p-y-2"
+          v-model="newTag"
+          auto-width
+          clearable
+          placeholder="新增标签"
+          size="small"
+          @clear="onTagClear"
+          @enter="addNewTag"
+        />
+      </div>
+      <div class="btn-container flex justify-end">
+        <div
+          class="send-btn flex items-center p-1 cursor-pointer rounded-2 border-1 border-solid border-[var(--foreground-color)] w-fit h-fit"
+          @click="submitAddNote"
+        >
+          <SendIcon class="c-[var(--foreground-color)] w-12 h-6 hover:rotate-30" />
+        </div>
       </div>
     </div>
+
+    <!-- 虚线水平分割线 -->
+    <Divider lineStyle="dashed" />
 
     <div class="note-list flex-1 overflow-hidden">
       <div class="h-full overflow-y-auto flex flex-wrap">
@@ -69,4 +164,22 @@ getAllNotes().then((res) => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep(.t-input) {
+  /* height: 48px;
+  border-radius: 12px; */
+  background-color: inherit;
+}
+
+:deep(.t-input__inner) {
+  color: var(--foreground-color);
+}
+
+:deep(.t-input__inner::placeholder) {
+  color: var(--placehoder-color);
+}
+
+:deep(.t-input__inner:focus) {
+  color: var(--foreground-color);
+}
+</style>
