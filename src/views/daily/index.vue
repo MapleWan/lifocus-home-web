@@ -96,6 +96,9 @@ const submitAddNote = () => {
   }).then((res) => {
     if (res.success) {
       getAllArticle()
+      content.value = ''
+      noteTitle.value = ''
+      tagList.value.forEach((tag) => (tag.selected = false))
       MessagePlugin.success('笔记创建成功')
     }
   })

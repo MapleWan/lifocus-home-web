@@ -17,7 +17,7 @@
     </div>
 
     <div class="content">
-      {{ content }}
+      {{ content.slice(0, 100) }}
     </div>
 
     <div class="tags flex flex-wrap gap-x-2">
