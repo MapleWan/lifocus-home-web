@@ -1,7 +1,7 @@
 <template>
-  <div class="note-card">
+  <div class="note-card flex flex-col justify-between h-full">
     <div class="header flex justify-between">
-      <div class="header-title">
+      <div class="header-title font-700 font-size-6">
         {{ title }}
       </div>
       <div class="header-actions flex items-center">
@@ -16,18 +16,21 @@
       </div>
     </div>
 
-    <div class="content">
-      {{ content.slice(0, 100) }}
+    <div class="content flex-1 m-y-4 overflow-y-auto">
+      <!-- {{ content.slice(0, 200) }} -->
+      {{ content }}
     </div>
 
-    <div class="tags flex flex-wrap gap-x-2">
-      <template v-for="(t, index) in tags" :key="index">
-        <Tag :content="t"></Tag>
-      </template>
-    </div>
+    <div>
+      <div class="tags flex flex-wrap gap-x-2">
+        <template v-for="(t, index) in tags" :key="index">
+          <Tag :content="t"></Tag>
+        </template>
+      </div>
 
-    <div class="type">
-      {{ type }}
+      <div class="type">
+        {{ type }}
+      </div>
     </div>
   </div>
 </template>

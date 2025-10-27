@@ -157,7 +157,7 @@ const submitAddNote = () => {
       <div class="h-full overflow-y-auto flex flex-wrap">
         <div class="note-item w-50%" v-for="note in noteList" :key="note.id">
           <div
-            class="item-container m-1 p-2 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed min-h-40"
+            class="item-container m-1 p-4 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed h-60"
           >
             <NoteCard v-bind="note" />
           </div>
