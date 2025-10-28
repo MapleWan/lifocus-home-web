@@ -9,6 +9,7 @@ import { Input as TInput } from 'tdesign-vue-next'
 import { MessagePlugin } from 'tdesign-vue-next'
 import SendIcon from '@/assets/commonIcons/send.svg'
 import Divider from '@/components/Divider/index.vue'
+import MyDialog from '@/components/MyDialog/index.vue'
 const content = ref('')
 const tagList = ref([])
 getAllTags().then((res) => {
@@ -70,7 +71,14 @@ const addNewTag = () => {
   }
 }
 
+const dialogVisible = ref(false)
+const openDialog = () => {
+  console.log('first')
+  dialogVisible.value = true
+}
 const submitAddNote = () => {
+  openDialog()
+  return
   if (!noteTitle.value) {
     MessagePlugin.warning('请输入标题')
     return
@@ -118,7 +126,7 @@ const submitAddNote = () => {
         size="small"
         @clear="onTitleClear"
       />
-      <MdEditor v-model="content" class="glass-effect" />
+      <MdEditor v-model="content" class="glass-effect" style="height: 30vh" />
       <div class="flex flex-wrap items-center gap-x-2 p-y-1">
         <template v-for="(tag, index) in tagList" :key="tag">
           <Tag
@@ -159,11 +167,15 @@ const submitAddNote = () => {
           <div
             class="item-container m-1 p-4 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed h-60"
           >
-            <NoteCard v-bind="note" />
+            <NoteCard v-bind="note" @openDialog="openDialog" />
           </div>
         </div>
       </div>
     </div>
+
+    <MyDialog v-model="dialogVisible" width="600px" height="500px" mount-to="daily">
+      <div>在这里放置你的内容</div>
+    </MyDialog>
   </div>
 </template>
 

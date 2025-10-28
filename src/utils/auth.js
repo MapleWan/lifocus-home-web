@@ -4,7 +4,7 @@ const TOKEN_EXPIRY_THRESHOLD = 2 * 60 * 1000
 // 检查 access token 是否即将过期
 export function isTokenExpiringSoon(expiryTime) {
   if (!expiryTime) return true
-  return Date.now() > (expiryTime - TOKEN_EXPIRY_THRESHOLD)
+  return Date.now() > expiryTime - TOKEN_EXPIRY_THRESHOLD
 }
 
 // 获取存储的 token 信息
@@ -12,7 +12,7 @@ export function getTokens() {
   return {
     accessToken: localStorage.getItem('access_token'),
     refreshToken: localStorage.getItem('refresh_token'),
-    expiryTime: localStorage.getItem('token_expiry')
+    expiryTime: localStorage.getItem('token_expiry'),
   }
 }
 
@@ -41,5 +41,5 @@ export default {
   getTokens,
   setTokens,
   clearTokens,
-  refreshAccessToken
+  refreshAccessToken,
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="note-card flex flex-col justify-between h-full">
     <div class="header flex justify-between">
-      <div class="header-title font-700 font-size-6">
+      <div class="header-title font-700 font-size-6" @click="openDialog">
         {{ title }}
       </div>
       <div class="header-actions flex items-center">
@@ -16,9 +16,11 @@
       </div>
     </div>
 
-    <div class="content flex-1 m-y-4 overflow-y-auto">
+    <div class="content flex-1 m-y-4 overflow-y-auto overflow-x-hidden">
       <!-- {{ content.slice(0, 200) }} -->
-      {{ content }}
+      <!-- {{ content }} -->
+      <!-- <MdEditor :content="content" class="glass-effect" isPreview /> -->
+      <MdEditor :content="content" class="glass-effect" isPreview />
     </div>
 
     <div>
@@ -39,7 +41,12 @@
 import MoreIcon from '@/assets/commonIcons/more.svg'
 import EditIcon from '@/assets/commonIcons/edit.svg'
 import Tag from '@/components/Tag/index.vue'
+import MdEditor from '@/components/MdEditor/index.vue'
 import { Popup as TPopup } from 'tdesign-vue-next'
+const emit = defineEmits(['openDialog'])
+const openDialog = () => {
+  emit('openDialog')
+}
 defineProps({
   // id
   id: {

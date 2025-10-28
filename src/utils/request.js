@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { getTokens, isTokenExpiringSoon, setTokens, clearTokens } from './auth.js'
 import useMainStore from '@/stores/main.js'
+import { MessagePlugin } from 'tdesign-vue-next'
+
 // 创建 axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL, // API 的 base_url
@@ -54,9 +56,28 @@ service.interceptors.response.use(
   (error) => {
     const mainStore = useMainStore()
     mainStore.isLoading = false
-    const msg = error.message && error.response.data.message
-    // MessagePlugin.error({ content: msg || 'Error', duration: 3000 })
-    console.error(msg)
+    // 检查是否有响应以及响应的状态码
+    if (error.response) {
+      const { status, data } = error.response
+      const msg = data.message || 'Error'
+
+      // 捕获 401 状态码
+      if (status === 401) {
+        // 可以在这里添加清除 token 和重定向到登录页的逻辑
+        clearTokens()
+        MessagePlugin.warning({ content: '请登录', duration: 3000 })
+        window.location.href = '/login'
+        // 例如：window.location.href = '/login'
+      }
+
+      // MessagePlugin.error({ content: msg || 'Error', duration: 3000 })
+      console.error(`Error ${status}: ${msg}`)
+    } else {
+      // 网络错误或其他没有响应的错误
+      const msg = error.message || 'Error'
+      console.error(msg)
+    }
+
     return Promise.reject(error)
   }
 )
@@ -69,7 +90,9 @@ async function refreshToken() {
     if (!refreshToken) {
       // 如果没有 refresh token，清除所有 token 并重定向到登录页
       clearTokens()
+      MessagePlugin.warning({ content: '请登录', duration: 3000 })
       // 这里可以添加重定向到登录页的逻辑
+      window.location.href = '/login'
       return
     }
 

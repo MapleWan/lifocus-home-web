@@ -4,20 +4,45 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
-import { MdEditor, MdPreview } from 'md-editor-v3';
-import 'md-editor-v3/lib/style.css';
-
+import { ref, watchEffect } from 'vue'
+import { MdEditor, MdPreview } from 'md-editor-v3'
+import 'md-editor-v3/lib/style.css'
 
 // 详细配置表参考 https://imzbf.github.io/md-editor-v3/zh-CN/api#%F0%9F%91%82%F0%9F%8F%BC%20on
 const defaultEditorConfig = {
-  theme: "dark", // 主题，可选值：dark、light
+  theme: 'dark', // 主题，可选值：dark、light
   showCodeRowNumber: true, // 代码块是否显示行号
   preview: true, // 是否显示预览，可选值：true, false
   htmlPreview: false, // 是否显示 HTML 预览，可选值：true(需要将preview设置为false), false
-  previewTheme: "github", // 预览主题，可选值：default、github、vuepress、mk-cute、smart-blue、cyanosis
-  codeTheme: "github", // 代码主题，可选值：atom、a11y、github、gradient、kimbie、paraiso、qtcreator、stackoverflow
-  toolbars: ['bold', 'underline', 'strikeThrough', '-', 'quote', 'unorderedList', 'orderedList', '-', 'task', 'codeRow', 'code', '-', 'link', 'image', 'table', '-', 'revoke', 'next', '=', 'pageFullscreen', 'fullscreen', 'preview', 'previewOnly', 'htmlPreview', 'catalog',], // 工具栏 'bold', 'underline', 'italic', '-', 'title', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList', 'orderedList', 'task', '-', 'codeRow', 'code', 'link', 'image', 'table', 'mermaid', 'katex', '-', 'revoke', 'next', 'save', '=', 'pageFullscreen', 'fullscreen', 'preview', 'previewOnly', 'htmlPreview', 'catalog', 'github'
+  previewTheme: 'github', // 预览主题，可选值：default、github、vuepress、mk-cute、smart-blue、cyanosis
+  codeTheme: 'github', // 代码主题，可选值：atom、a11y、github、gradient、kimbie、paraiso、qtcreator、stackoverflow
+  toolbars: [
+    'bold',
+    'underline',
+    'strikeThrough',
+    '-',
+    'quote',
+    'unorderedList',
+    'orderedList',
+    '-',
+    'task',
+    'codeRow',
+    'code',
+    '-',
+    'link',
+    'image',
+    'table',
+    '-',
+    'revoke',
+    'next',
+    '=',
+    'pageFullscreen',
+    'fullscreen',
+    'preview',
+    'previewOnly',
+    'htmlPreview',
+    'catalog',
+  ], // 工具栏 'bold', 'underline', 'italic', '-', 'title', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList', 'orderedList', 'task', '-', 'codeRow', 'code', 'link', 'image', 'table', 'mermaid', 'katex', '-', 'revoke', 'next', 'save', '=', 'pageFullscreen', 'fullscreen', 'preview', 'previewOnly', 'htmlPreview', 'catalog', 'github'
   placeholder: '我有一个想法....', // 占位内容
   autoFocus: true, // 是否自动聚焦
   disabled: false, // 是否禁用文本区域
@@ -28,52 +53,54 @@ const defaultEditorConfig = {
 }
 
 const defaultPreviewConfig = {
-  theme: "dark", // 主题，可选值：dark、light
+  theme: 'dark', // 主题，可选值：dark、light
   showCodeRowNumber: true, // 代码块是否显示行号
-  previewTheme: "github", // 预览主题，可选值：default、github、vuepress、mk-cute、smart-blue、cyanosis
-  codeTheme: "github", // 代码主题，可选值：atom、a11y、github、gradient、kimbie、paraiso、qtcreator、stackoverflow
+  previewTheme: 'github', // 预览主题，可选值：default、github、vuepress、mk-cute、smart-blue、cyanosis
+  codeTheme: 'github', // 代码主题，可选值：atom、a11y、github、gradient、kimbie、paraiso、qtcreator、stackoverflow
 }
 
 const editorConfigTemplate = ref({})
 const previewConfigTemplate = ref({})
 
-
 const props = defineProps({
   isPreview: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
   editorConfig: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
 
   previewConfig: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 })
 console.log(props)
-watchEffect(() => {
-  if (props.isPreview) {
-    previewConfigTemplate.value = {
-      ...defaultPreviewConfig,
-      ...props.previewConfig
+watchEffect(
+  () => {
+    if (props.isPreview) {
+      previewConfigTemplate.value = {
+        ...defaultPreviewConfig,
+        ...props.previewConfig,
+      }
+    } else {
+      editorConfigTemplate.value = {
+        ...defaultEditorConfig,
+        ...props.editorConfig,
+      }
     }
-  } else {
-    editorConfigTemplate.value = {
-      ...defaultEditorConfig,
-      ...props.editorConfig
-    }
-  }
 
-  console.log(previewConfigTemplate, editorConfigTemplate, '--->>>')
-}, { immediate: true })
+    console.log(previewConfigTemplate, editorConfigTemplate, '--->>>')
+  },
+  { immediate: true }
+)
 
-const content = defineModel({
+const content = defineModel('content', {
   type: String,
-  default: ''
+  default: '',
 })
 </script>
 
@@ -84,7 +111,7 @@ const content = defineModel({
   /* background: none; */
   border-radius: 8px;
   /* height: 400px; */
-  height: 30vh;
+  /* height: 30vh; */
 }
 
 :deep(.md-editor-custom-scrollbar__track) {
