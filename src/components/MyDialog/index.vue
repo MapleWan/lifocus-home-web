@@ -20,6 +20,11 @@ const props = defineProps({
     type: String,
     default: '400px',
   },
+  // 对话框标题
+  title: {
+    type: String,
+    default: ''
+  }
 })
 
 // 对话框是否可见
@@ -60,8 +65,9 @@ watch(
 
 <template>
   <Teleport :to="mountTo" :disabled="!mountTo">
-    <div v-if="visible" ref="dialogElement" class="my-dialog" @click="onMaskClick">
-      <div class="my-dialog__wrapper glass-effect" :style="{ width, height }">
+    <div v-if="visible" ref="dialogElement" class="my-dialog glass-effect" @click="onMaskClick">
+      <div class="my-dialog__wrapper" :style="{ width, height }">
+        <div v-if="title" class="my-dialog__title">{{ title }}</div>
         <div class="my-dialog__close" @click="closeDialog">×</div>
         <div class="my-dialog__body">
           <slot></slot>
@@ -88,10 +94,13 @@ watch(
 .my-dialog__wrapper {
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
   overflow: hidden;
   animation: dialog-fade-in 0.3s ease-out;
   position: relative;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--foreground-color);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 @keyframes dialog-fade-in {
@@ -103,6 +112,21 @@ watch(
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.my-dialog__title {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 48px; /* 为关闭按钮留出空间 */
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  z-index: 10;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--foreground-color);
 }
 
 .my-dialog__close {
@@ -119,6 +143,7 @@ watch(
   border-radius: 50%;
   transition: background-color 0.2s;
   z-index: 10;
+  color: var(--foreground-color);
 }
 
 .my-dialog__close:hover {
@@ -129,6 +154,6 @@ watch(
   flex: 1;
   overflow-y: auto;
   padding: 16px;
-  padding-top: 40px;
+  margin-top: 48px;
 }
 </style>

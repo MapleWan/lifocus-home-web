@@ -1,7 +1,7 @@
 <template>
   <div class="note-card flex flex-col justify-between h-full">
     <div class="header flex justify-between">
-      <div class="header-title font-700 font-size-6" @click="openDialog">
+      <div class="header-title font-700 font-size-6 cursor-pointer" @click="openDialog">
         {{ title }}
       </div>
       <div class="header-actions flex items-center">
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="content flex-1 m-y-4 overflow-y-auto overflow-x-hidden">
+    <div class="content flex-1 m-y-4 overflow-y-auto overflow-x-hidden cursor-pointer" @click="openDialog">
       <!-- {{ content.slice(0, 200) }} -->
       <!-- {{ content }} -->
       <!-- <MdEditor :content="content" class="glass-effect" isPreview /> -->
@@ -44,13 +44,11 @@ import Tag from '@/components/Tag/index.vue'
 import MdEditor from '@/components/MdEditor/index.vue'
 import { Popup as TPopup } from 'tdesign-vue-next'
 const emit = defineEmits(['openDialog'])
-const openDialog = () => {
-  emit('openDialog')
-}
-defineProps({
+
+const props = defineProps({
   // id
   id: {
-    type: String,
+    type: [Number, String],
     default: '',
   },
   // 标题
@@ -79,6 +77,10 @@ defineProps({
     default: '',
   },
 })
+
+const openDialog = () => {
+  emit('openDialog', props.id)
+}
 </script>
 
 <style scoped></style>

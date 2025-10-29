@@ -72,13 +72,18 @@ const addNewTag = () => {
 }
 
 const dialogVisible = ref(false)
-const openDialog = () => {
-  console.log('first')
+const currentNote = ref({
+  content: '',
+  title: '',
+})
+const openDialog = (id) => {
+  currentNote.value = noteList.value.find((note) => note.id === id) || {
+    content: '',
+    title: '',
+  }
   dialogVisible.value = true
 }
 const submitAddNote = () => {
-  openDialog()
-  return
   if (!noteTitle.value) {
     MessagePlugin.warning('请输入标题')
     return
@@ -173,8 +178,8 @@ const submitAddNote = () => {
       </div>
     </div>
 
-    <MyDialog v-model="dialogVisible" width="600px" height="500px" mount-to="daily">
-      <div>在这里放置你的内容</div>
+    <MyDialog v-model="dialogVisible" width="90vw" height="90vh" :title="currentNote.title">
+      <MdEditor :content="currentNote.content" class="glass-effect" isPreview />
     </MyDialog>
   </div>
 </template>

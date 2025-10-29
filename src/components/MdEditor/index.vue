@@ -78,7 +78,6 @@ const props = defineProps({
     default: () => ({}),
   },
 })
-console.log(props)
 watchEffect(
   () => {
     if (props.isPreview) {
@@ -92,10 +91,7 @@ watchEffect(
         ...props.editorConfig,
       }
     }
-
-    console.log(previewConfigTemplate, editorConfigTemplate, '--->>>')
   },
-  { immediate: true }
 )
 
 const content = defineModel('content', {
