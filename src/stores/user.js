@@ -1,5 +1,5 @@
 import { login } from '../api/auth.js'
-import { setTokens } from '../utils/auth.js'
+import { setTokens, clearTokens } from '../utils/auth.js'
 
 import { defineStore } from 'pinia'
 
@@ -26,6 +26,14 @@ const useUserStore = defineStore('user', {
       } else {
         throw new Error(res)
       }
+    },
+
+    logout() {
+      clearTokens()
+      this.accessToken = null
+      this.refreshToken = null
+      this.expiryTime = null
+      this.userInfo.username = null
     },
   },
   persist: {

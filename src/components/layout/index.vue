@@ -5,6 +5,7 @@ import BarItem from './components/BarItem.vue'
 import { useRouter } from 'vue-router'
 import useUserStore from '@/stores/user'
 import { ref } from 'vue'
+import { Popup as TPopup, MessagePlugin } from 'tdesign-vue-next'
 
 import FoldIcon from '@/assets/commonIcons/flod.svg'
 const pageList = ref([
@@ -30,6 +31,14 @@ const jump = (item) => {
 }
 const more = () => {
   console.log('更多')
+}
+const toMyInfo = () => {
+  MessagePlugin.warning('暂未开放')
+}
+const logout = () => {
+  userStore.logout()
+  MessagePlugin.success('退出登录')
+  router.push('/login')
 }
 </script>
 
@@ -89,7 +98,27 @@ const more = () => {
           <div></div>
         </template>
         <template #right>
-          <div class="c-[var(--foreground-color)]">【 TODO 】</div>
+          <div class="c-[var(--foreground-color)]">
+            <t-popup placement="bottom">
+              {{ userStore.userInfo?.username || '未登录' }}
+              <template #content>
+                <div class="flex flex-col items-center">
+                  <div
+                    class="hover-bg-[var(--foreground-color)] c-[var(--background-color)] p-1 cursor-pointer"
+                    @click="toMyInfo"
+                  >
+                    我的信息
+                  </div>
+                  <div
+                    class="hover-bg-[var(--foreground-color)] c-[var(--background-color)] p-1 cursor-pointer"
+                    @click="logout"
+                  >
+                    退出登录
+                  </div>
+                </div>
+              </template>
+            </t-popup>
+          </div>
         </template>
       </Header>
       <router-view></router-view>
