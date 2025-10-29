@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router'
 import useUserStore from '@/stores/user'
 import { ref } from 'vue'
 
+import FoldIcon from '@/assets/commonIcons/flod.svg'
 const pageList = ref([
   { code: 'dashboard', title: '主页', routerPath: '/' },
   { code: 'note', title: '笔记', routerPath: '/note' },
@@ -21,6 +22,7 @@ const currentPage = ref('dashboard')
 const router = useRouter()
 currentPage.value = router.currentRoute.value.name
 const userStore = useUserStore()
+const isCollapsed = ref(true)
 
 const jump = (item) => {
   currentPage.value = item.code
@@ -33,33 +35,44 @@ const more = () => {
 
 <template>
   <div class="flex layout-container">
-    <SiderBar class="w-220px flex h-full flex-col p-4 glass-effect">
-      <template #header>
-        <div class="logo flex items-center justify-start">
-          <img src="/favicon.jpg" alt="logo" class="w-24px h-24px rounded-2 m-r-4" />
-          <div class="c-[var(--foreground-color)] font-700 line-height-6">
-            {{ userStore.userInfo?.username || '未登录' }}
+    <div class="glass-effect relative transition-all duration-200 ease-in-out">
+      <FoldIcon
+        @click="isCollapsed = !isCollapsed"
+        class="absolute top-50% translate-y-[-50%] w-3 h-3 right-1 cursor-pointer c-[var(--foreground-color)] transition-transform duration-200 ease-in-out"
+        :class="{ 'rotate-180': isCollapsed }"
+      />
+      <SiderBar
+        class="flex h-full flex-col p-4 transition-all duration-200 ease-in-out"
+        :class="{ 'w-220px': !isCollapsed, 'w-72px': isCollapsed }"
+      >
+        <template #header>
+          <div class="logo flex items-center justify-start">
+            <img src="/favicon.jpg" alt="logo" class="w-24px h-24px rounded-2 m-r-4" />
+            <div class="c-[var(--foreground-color)] font-700 line-height-6" v-if="!isCollapsed">
+              {{ userStore.userInfo?.username || '未登录' }}
+            </div>
           </div>
-        </div>
-      </template>
-
-      <template #content>
-        <template v-for="item in pageList" :key="item.code">
-          <bar-item
-            :code="item.code"
-            :title="item.title"
-            :router-path="item.routerPath"
-            :is-active="currentPage === item.code"
-            @click="jump(item)"
-          />
         </template>
-      </template>
-      <template #footer>
-        <bar-item code="more" title="更多" @click="more" />
-      </template>
-    </SiderBar>
+
+        <template #content>
+          <template v-for="item in pageList" :key="item.code">
+            <bar-item
+              :code="item.code"
+              :title="item.title"
+              :router-path="item.routerPath"
+              :is-active="currentPage === item.code"
+              :is-collapsed="isCollapsed"
+              @click="jump(item)"
+            />
+          </template>
+        </template>
+        <template #footer>
+          <bar-item code="more" title="更多" @click="more" :is-collapsed="isCollapsed" />
+        </template>
+      </SiderBar>
+    </div>
     <div
-      class="w-[calc(100%-220px)] p-4 border-[var(--border-color)] border-l-[2px] border-l-solid"
+      class="flex-1 p-4 border-[var(--border-color)] border-l-[2px] border-l-solid min-w-0 transition-all duration-200 ease-in-out"
     >
       <Header>
         <template #left>

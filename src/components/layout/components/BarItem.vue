@@ -1,11 +1,11 @@
 <script setup>
-import dashboard from "@/assets/sideBarIcons/dashboard.svg"
-import album from "@/assets/sideBarIcons/album.svg"
-import more from "@/assets/sideBarIcons/more.svg"
-import todo from "@/assets/sideBarIcons/todo.svg"
-import note from "@/assets/sideBarIcons/note.svg"
-import daily from "@/assets/sideBarIcons/daily.svg"
-import { computed } from "vue"
+import dashboard from '@/assets/sideBarIcons/dashboard.svg'
+import album from '@/assets/sideBarIcons/album.svg'
+import more from '@/assets/sideBarIcons/more.svg'
+import todo from '@/assets/sideBarIcons/todo.svg'
+import note from '@/assets/sideBarIcons/note.svg'
+import daily from '@/assets/sideBarIcons/daily.svg'
+import { computed } from 'vue'
 const props = defineProps({
   title: {
     type: String,
@@ -21,44 +21,54 @@ const props = defineProps({
   },
   isActive: {
     type: Boolean,
-    default: false
-  }
-});
+    default: false,
+  },
+  isCollapsed: {
+    type: Boolean,
+    default: false,
+  },
+})
 
 const isActive = computed(() => props.isActive)
 const dynamicComponent = computed(() => {
   switch (props.code) {
     case 'dashboard':
-      return dashboard;
+      return dashboard
     case 'album':
-      return album;
+      return album
     case 'more':
-      return more;
+      return more
     case 'todo':
-      return todo;
+      return todo
     case 'note':
-      return note;
+      return note
     case 'daily':
-      return daily;
+      return daily
     default:
-      return dashboard;
+      return dashboard
   }
-});
-
+})
 </script>
 
 <template>
   <div
     class="c-[var(--foreground-color)] p-y-2 p-2 flex flex-row items-center cursor-pointer gap-2 hover:bg-[var(--hover)] rounded-xl !transition-all gap-1"
-    :class="{ active: isActive }">
+    :class="{ active: isActive }"
+  >
     <slot name="icon">
-      <div class="w-6 h-6">
+      <div
+        class="w-6 h-6 flex-shrink-0 transition-all duration-200 ease-in-out"
+        :title="props.title"
+      >
         <component :is="dynamicComponent" class="w-full h-full" />
       </div>
     </slot>
     <slot name="title">
-      <div class="m-l-2 font-size-4 font-600 line-height-6">
-        {{ props.title || "主页" }}
+      <div
+        class="m-l-2 font-size-4 font-600 line-height-6 transition-all duration-200 ease-in-out overflow-hidden whitespace-nowrap"
+        :class="{ 'w-0 opacity-0': isCollapsed, 'w-auto opacity-100': !isCollapsed }"
+      >
+        {{ props.title || '主页' }}
       </div>
     </slot>
   </div>
