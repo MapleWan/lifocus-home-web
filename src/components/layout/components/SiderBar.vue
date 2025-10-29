@@ -11,7 +11,6 @@
     <div class="footer">
       <slot name="footer"> footer </slot>
     </div>
-    />
   </div>
 </template>
 
