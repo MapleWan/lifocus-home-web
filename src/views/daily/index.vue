@@ -137,7 +137,7 @@ onMounted(() => {
         size="small"
         @clear="onTitleClear"
       />
-      <MdEditor v-model="content" class="glass-effect" style="height: 30vh" />
+      <MdEditor v-model="content" class="glass-effect" style="height: 20vh" />
       <div class="flex flex-wrap items-center gap-x-2 p-y-1">
         <template v-for="(tag, index) in tagList" :key="tag">
           <Tag

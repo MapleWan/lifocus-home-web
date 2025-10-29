@@ -1,14 +1,25 @@
 <template>
   <div class="note-card flex flex-col justify-between h-full">
-    <div class="header flex justify-between">
-      <div class="header-title font-700 font-size-6 cursor-pointer" @click="openDialog">
+    <div class="w-full header flex justify-between">
+      <div
+        class="header-title max-w-60% font-700 font-size-6 cursor-pointer text-ellipsis whitespace-nowrap overflow-hidden"
+        :title="title"
+        @click="openDialog"
+      >
         {{ title }}
       </div>
       <div class="header-actions flex items-center">
-        <div class="header-time m-r-4">
+        <div
+          class="header-time m-r-4 text-ellipsis whitespace-nowrap overflow-hidden"
+          :title="time"
+        >
           {{ time }}
         </div>
-        <EditIcon class="w-4 h-4 c-[var(--foreground-color)] cursor-pointer m-r-2" />
+        <EditIcon
+          class="w-4 h-4 c-[var(--foreground-color)] cursor-pointer m-r-2"
+          :title="编辑"
+          @click="editNote"
+        />
         <t-popup placement="bottom">
           <MoreIcon class="w-4 h-4 c-[var(--foreground-color)] cursor-pointer" />
           <template #content> 更多操作-敬请期待 </template>
@@ -16,7 +27,10 @@
       </div>
     </div>
 
-    <div class="content flex-1 m-y-4 overflow-y-auto overflow-x-hidden cursor-pointer" @click="openDialog">
+    <div
+      class="content flex-1 m-y-4 overflow-y-auto overflow-x-hidden cursor-pointer"
+      @click="openDialog"
+    >
       <!-- {{ content.slice(0, 200) }} -->
       <!-- {{ content }} -->
       <!-- <MdEditor :content="content" class="glass-effect" isPreview /> -->
@@ -79,6 +93,10 @@ const props = defineProps({
 })
 
 const openDialog = () => {
+  emit('openDialog', props.id)
+}
+
+const editNote = () => {
   emit('openDialog', props.id)
 }
 </script>
