@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import MdEditor from '@/components/MdEditor/index.vue'
 import Tag from '@/components/Tag/index.vue'
 import NoteCard from '@/components/NoteCard/index.vue'
@@ -12,16 +12,18 @@ import Divider from '@/components/Divider/index.vue'
 import MyDialog from '@/components/MyDialog/index.vue'
 const content = ref('')
 const tagList = ref([])
-getAllTags().then((res) => {
-  tagList.value = res.data.map((tag) => {
-    return {
-      name: tag.name,
-      selected: false,
-      selectable: true,
-      closeable: false,
-    }
+const getTags = () => {
+  getAllTags().then((res) => {
+    tagList.value = res.data.map((tag) => {
+      return {
+        name: tag.name,
+        selected: false,
+        selectable: true,
+        closeable: false,
+      }
+    })
   })
-})
+}
 const deleteTag = (index) => {
   tagList.value.splice(index, 1)
 }
@@ -41,8 +43,6 @@ const getAllArticle = () => {
   })
 }
 const noteList = ref([])
-getAllArticle()
-
 const noteTitle = ref('')
 const onTitleClear = () => {
   noteTitle.value = ''
@@ -109,6 +109,7 @@ const submitAddNote = () => {
   }).then((res) => {
     if (res.success) {
       getAllArticle()
+      getTags()
       content.value = ''
       noteTitle.value = ''
       tagList.value.forEach((tag) => (tag.selected = false))
@@ -116,6 +117,11 @@ const submitAddNote = () => {
     }
   })
 }
+
+onMounted(() => {
+  getAllArticle()
+  getTags()
+})
 </script>
 
 <template>
