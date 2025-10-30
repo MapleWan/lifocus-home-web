@@ -69,7 +69,7 @@ onMounted(() => {
       :key="note.id"
     >
       <div
-        class="item-container m-1 p-4 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed h-100"
+        class="item-container m-1 p-4 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed h-80"
       >
         <NoteCard v-bind="note" @openDialog="openDialog" />
       </div>

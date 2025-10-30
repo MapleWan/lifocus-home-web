@@ -128,7 +128,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="note c-[var(--foreground-color)] h-full p-y-4 overflow-hidden flex flex-col relative">
+  <div
+    class="note c-[var(--foreground-color)] h-full p-y-4 overflow-auto flex flex-col relative"
+    style="height: calc(100vh - 60px)"
+  >
     <div class="edit-form">
       <t-input
         class="p-y-2 p-x-1"
@@ -138,7 +141,7 @@ onMounted(() => {
         size="small"
         @clear="onTitleClear"
       />
-      <MdEditor v-model="content" class="glass-effect" style="height: 20vh" />
+      <MdEditor v-model="content" :autoFocus="isPc" class="glass-effect" style="height: 40vh" />
       <div class="flex flex-wrap items-center gap-x-2 p-y-1">
         <template v-for="(tag, index) in tagList" :key="tag">
           <Tag
@@ -173,19 +176,17 @@ onMounted(() => {
     <!-- 虚线水平分割线 -->
     <Divider lineStyle="dashed" />
 
-    <div class="note-list flex-1 overflow-hidden">
-      <div class="h-full overflow-y-auto flex flex-wrap">
+    <div class="note-list flex flex-wrap">
+      <div
+        class="note-item"
+        :class="{ 'w-full': !isPc, 'w-50%': isPc }"
+        v-for="note in noteList"
+        :key="note.id"
+      >
         <div
-          class="note-item"
-          :class="{ 'w-full': !isPc, 'w-50%': isPc }"
-          v-for="note in noteList"
-          :key="note.id"
+          class="item-container m-1 p-4 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed h-60"
         >
-          <div
-            class="item-container m-1 p-4 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed h-60"
-          >
-            <NoteCard v-bind="note" @openDialog="openDialog" />
-          </div>
+          <NoteCard v-bind="note" @openDialog="openDialog" />
         </div>
       </div>
     </div>
