@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tag rounded flex items-center justify-between w-fit glass-effect min-w-10 p-l-1.5 p-r-1 border-solid border-#252526 border-1 c-[var(--foreground-color)] inline-block"
+    class="tag rounded flex items-center justify-between w-fit glass-effect min-w-10 p-l-1.5 p-r-1 border-solid border-[var(--foreground-color)] border-1 c-[var(--foreground-color)] inline-block"
     :class="{ 'tag-selectable': selectable, 'tag-selected': selected }"
     v-if="content"
   >

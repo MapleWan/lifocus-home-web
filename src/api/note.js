@@ -8,6 +8,15 @@ export function getAllNotes() {
   })
 }
 
+// 按条件查询文章
+export function getNotesByCondition(data) {
+  return request({
+    url: 'article/note-detail',
+    method: 'post',
+    data,
+  })
+}
+
 // 添加 文章
 export function addNote(data) {
   return request({

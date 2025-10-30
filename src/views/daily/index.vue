@@ -1,15 +1,16 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import MdEditor from '@/components/MdEditor/index.vue'
 import Tag from '@/components/Tag/index.vue'
 import NoteCard from '@/components/NoteCard/index.vue'
 import { getAllTags } from '@/api/tag.js'
-import { getAllNotes, addNote } from '@/api/note'
+import { getNotesByCondition, addNote } from '@/api/note'
 import { Input as TInput } from 'tdesign-vue-next'
 import { MessagePlugin } from 'tdesign-vue-next'
 import SendIcon from '@/assets/commonIcons/send.svg'
 import Divider from '@/components/Divider/index.vue'
 import MyDialog from '@/components/MyDialog/index.vue'
+import useMainStore from '@/stores/main.js'
 const content = ref('')
 const tagList = ref([])
 const getTags = () => {
@@ -28,8 +29,8 @@ const deleteTag = (index) => {
   tagList.value.splice(index, 1)
 }
 
-const getAllArticle = () => {
-  getAllNotes().then((res) => {
+const getAllDaily = () => {
+  getNotesByCondition({ type: 'daily' }).then((res) => {
     noteList.value = res.data.map((note) => {
       return {
         id: note.id,
@@ -108,7 +109,7 @@ const submitAddNote = () => {
     tags,
   }).then((res) => {
     if (res.success) {
-      getAllArticle()
+      getAllDaily()
       getTags()
       content.value = ''
       noteTitle.value = ''
@@ -118,8 +119,10 @@ const submitAddNote = () => {
   })
 }
 
+const mainStore = useMainStore()
+const isPc = computed(() => mainStore.isPc)
 onMounted(() => {
-  getAllArticle()
+  getAllDaily()
   getTags()
 })
 </script>
@@ -174,7 +177,12 @@ onMounted(() => {
 
     <div class="note-list flex-1 overflow-hidden">
       <div class="h-full overflow-y-auto flex flex-wrap">
-        <div class="note-item w-50%" v-for="note in noteList" :key="note.id">
+        <div
+          class="note-item"
+          :class="{ 'w-full': !isPc, 'w-50%': isPc }"
+          v-for="note in noteList"
+          :key="note.id"
+        >
           <div
             class="item-container m-1 p-4 glass-effect rounded border-1 border-[var(--foreground-color)] border-dashed h-60"
           >
