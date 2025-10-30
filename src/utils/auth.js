@@ -3,8 +3,8 @@ const TOKEN_EXPIRY_THRESHOLD = 2 * 60 * 1000
 
 // 检查 access token 是否即将过期
 export function isTokenExpiringSoon(expiryTime) {
-  if (!expiryTime) return true
-  return Date.now() > expiryTime - TOKEN_EXPIRY_THRESHOLD
+  if (!expiryTime) return false
+  return Date.now() < expiryTime && Date.now() > expiryTime - TOKEN_EXPIRY_THRESHOLD
 }
 
 // 获取存储的 token 信息
