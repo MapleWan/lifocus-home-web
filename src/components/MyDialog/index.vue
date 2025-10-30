@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 
 // 使用 defineModel 替换 modelValue prop 和 update:modelValue 事件
 const model = defineModel({ type: Boolean, default: false })
@@ -23,8 +23,8 @@ const props = defineProps({
   // 对话框标题
   title: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 })
 
 // 对话框是否可见
@@ -61,6 +61,27 @@ watch(
   },
   { immediate: true }
 )
+
+// 监听 ESC 键关闭弹窗
+const handleKeydown = (e) => {
+  if (e.key === 'Escape' && visible.value) {
+    closeDialog()
+  }
+}
+
+// 添加和移除键盘事件监听
+watch(visible, (newVal) => {
+  if (newVal) {
+    document.addEventListener('keydown', handleKeydown)
+  } else {
+    document.removeEventListener('keydown', handleKeydown)
+  }
+})
+
+// 组件卸载时清理事件监听器
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
 <template>
